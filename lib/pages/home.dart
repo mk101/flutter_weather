@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/server/server.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
-
-  HomePage({this.title, Key key}) : super(key: key);
+  final Server server;
+  HomePage({this.title, Key key, this.server}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String curCity = 'Moscow';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +30,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
             ),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Moscow'),
+              title: Text(curCity),
               centerTitle: true,
               collapseMode: CollapseMode.pin,
               background: Container(
@@ -45,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      Text('FRI, 04.01.19',
+                      Text(getHeaderTime(),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w100,
@@ -56,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text('-7°', style: TextStyle(
+                          Text('${widget.server.getCurrentWeather(curCity).dayTemp}°', style: TextStyle(
                               color: Colors.white,
                               fontSize: 54.0
                             ),
@@ -68,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      Text('Cloudy', style: TextStyle(
+                      Text(widget.server.getCurrentWeather(curCity).type, style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w100,
                           fontSize: 14.0
@@ -101,7 +104,40 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  
+
+  getHeaderTime() {
+    var time = DateTime.now();
+    var format = DateFormat("dd.MM.yy");
+
+    String d;
+
+    switch (time.weekday) {
+      case 1:
+        d = 'Mon';
+        break;
+      case 2:
+        d = 'Tue';
+        break;
+      case 3:
+        d = 'Wed';
+        break;
+      case 4:
+        d = 'Thu';
+        break;
+      case 5:
+        d = 'Fri';
+        break;
+      case 6:
+        d = 'Sat';
+        break;
+      case 7:
+        d = 'Sun';
+        break;
+    }
+
+    return '$d, ${format.format(time)}';
+  }
+
   getActions() {
     return <Widget> [
       IconButton(
@@ -117,6 +153,8 @@ class _HomePageState extends State<HomePage> {
 
     var time = DateTime.now();
     var format = DateFormat("dd.MM.yy");
+
+    var wethers = widget.server.getWeatherForNextWeek(curCity);
 
     for (int i = 0; i < 7; i++) {
       String d;
@@ -170,7 +208,7 @@ class _HomePageState extends State<HomePage> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('-8°', style: TextStyle(
+            Text('${wethers[i].dayTemp}°', style: TextStyle(
                 fontSize: 20.0
               ),
             ),
@@ -179,7 +217,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(padding: EdgeInsets.only(left: 5),),
-            Text('-9°', style: TextStyle(
+            Text('${wethers[i].nightTemp}°', style: TextStyle(
                 fontSize: 20.0,
                 color: Colors.black54,
                 fontWeight: FontWeight.w300

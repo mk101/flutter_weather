@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/pages/home.dart';
+import 'package:weather/server/test_server.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
 
         }),
       ),
-      home: HomePage(title: 'Weather'),
+      home: HomePage(title: 'Weather', server: TestServer(),),
     );
   }
 }
