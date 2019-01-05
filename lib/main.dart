@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/server/test_server.dart';
+import 'package:weather/assets/string.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Weather',
+      title: Strings.getValue('WEATHER'),
       theme: ThemeData(
         primarySwatch: MaterialColor(0xFF7D64FF, <int, Color>{
           50: Color(0xFF7D64FF),
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
 
         }),
       ),
-      home: HomePage(title: 'Weather', server: TestServer(),),
+      home: HomePage(server: TestServer(),),
     );
   }
 }

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/server/server.dart';
+import 'package:weather/assets/string.dart';
+
+import 'package:weather/pages/cities.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
   final Server server;
-  HomePage({this.title, Key key, this.server}) : super(key: key);
+  HomePage({Key key, this.server}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  String curCity = 'Moscow';
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,13 @@ class _HomePageState extends State<HomePage> {
             actions: getActions(),
             leading: IconButton(
               icon: Icon(Icons.near_me),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CitiesPage(server: widget.server,)));
+              },
               color: Colors.white,
             ),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(curCity),
+              title: Text(Strings.getValue(widget.server.curCity)),
               centerTitle: true,
               collapseMode: CollapseMode.pin,
               background: Container(
@@ -40,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 18.0),
-                        child: Text('Now',
+                        child: Text(Strings.getValue('NOW'),
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.w300,
@@ -59,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text('${widget.server.getCurrentWeather(curCity).dayTemp}°', style: TextStyle(
+                          Text('${widget.server.getCurrentWeather(widget.server.curCity).dayTemp}°', style: TextStyle(
                               color: Colors.white,
                               fontSize: 54.0
                             ),
@@ -71,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      Text(widget.server.getCurrentWeather(curCity).type, style: TextStyle(
+                      Text(Strings.getValue(widget.server.getCurrentWeather(widget.server.curCity).type), style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w100,
                           fontSize: 14.0
@@ -87,8 +90,8 @@ class _HomePageState extends State<HomePage> {
             delegate: SliverChildListDelegate(
               <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 9.0, left: 10.0),
-                  child: Text('Next week', style: TextStyle(
+                  padding: const EdgeInsets.only(top: 14.0, left: 14.0),
+                  child: Text(Strings.getValue('NXTW'), style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500
                     ),
@@ -113,25 +116,25 @@ class _HomePageState extends State<HomePage> {
 
     switch (time.weekday) {
       case 1:
-        d = 'Mon';
+        d = 'MON';
         break;
       case 2:
-        d = 'Tue';
+        d = 'TUE';
         break;
       case 3:
-        d = 'Wed';
+        d = 'WED';
         break;
       case 4:
-        d = 'Thu';
+        d = 'THU';
         break;
       case 5:
-        d = 'Fri';
+        d = 'FRI';
         break;
       case 6:
-        d = 'Sat';
+        d = 'SAT';
         break;
       case 7:
-        d = 'Sun';
+        d = 'SUN';
         break;
     }
 
@@ -154,37 +157,37 @@ class _HomePageState extends State<HomePage> {
     var time = DateTime.now();
     var format = DateFormat("dd.MM.yy");
 
-    var wethers = widget.server.getWeatherForNextWeek(curCity);
+    var weathers = widget.server.getWeatherForNextWeek(widget.server.curCity);
 
     for (int i = 0; i < 7; i++) {
       String d;
 
       if (i == 0) {
-        d = 'Today,';
+        d = Strings.getValue('TOD');
       } else if (i == 1) {
-        d = 'Tomorrow,';
+        d = Strings.getValue('TOMR');
       } else {
         switch (time.weekday) {
           case 1:
-            d = 'Monday,';
+            d = Strings.getValue('MOND');
             break;
           case 2:
-            d = 'Tuesday,';
+            d = Strings.getValue('TUES');
             break;
           case 3:
-            d = 'Wednesday,';
+            d = Strings.getValue('WEDN');
             break;
           case 4:
-            d = 'Thursday,';
+            d = Strings.getValue('THUR');
             break;
           case 5:
-            d = 'Friday,';
+            d = Strings.getValue('FRID');
             break;
           case 6:
-            d = 'Saturday,';
+            d = Strings.getValue('SATU');
             break;
           case 7:
-            d = 'Sunday,';
+            d = Strings.getValue('SUND');
             break;
         }
       }
@@ -208,7 +211,7 @@ class _HomePageState extends State<HomePage> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('${wethers[i].dayTemp}°', style: TextStyle(
+            Text('${weathers[i].dayTemp}°', style: TextStyle(
                 fontSize: 20.0
               ),
             ),
@@ -217,7 +220,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(padding: EdgeInsets.only(left: 5),),
-            Text('${wethers[i].nightTemp}°', style: TextStyle(
+            Text('${weathers[i].nightTemp}°', style: TextStyle(
                 fontSize: 20.0,
                 color: Colors.black54,
                 fontWeight: FontWeight.w300

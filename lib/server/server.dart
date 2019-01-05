@@ -6,4 +6,8 @@ abstract class Server {
 
   List<Weather> getWeatherForNextWeek(String name);
 
+  List<String> getCities();
+
+  String curCity;
+
 }
