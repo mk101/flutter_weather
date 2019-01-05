@@ -6,7 +6,7 @@ Simple weather app, written in flutter
 
 1. Clone repository
 
-`git clone https://github.com/mk101/flutter_weather.git`
+    `git clone https://github.com/mk101/flutter_weather.git`
 
 2. Get dependency 
 ```
