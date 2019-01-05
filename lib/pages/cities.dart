@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:weather/server/server.dart';
 import 'package:weather/assets/string.dart';
 
+import 'package:weather/pages/search_cities.dart';
+
 class CitiesPage extends StatefulWidget {
   final Server server;
   CitiesPage({this.server, Key key}) : super(key: key);
@@ -22,7 +24,9 @@ class _CitiesPageState extends State<CitiesPage> {
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SearchCitiesPage(server: widget.server,)));
+                },
               ),
             ],
           ),

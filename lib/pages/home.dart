@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/server/server.dart';
 import 'package:weather/assets/string.dart';
+import 'dart:async';
 
 import 'package:weather/pages/cities.dart';
 
@@ -15,100 +16,117 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  List<Widget> _weekItems;
+
+  Future<Null> _updateWeekItems() async{
+
+    await Future.delayed(Duration(seconds: 1));
+
+    setState(() {
+      _weekItems = List.from(_getWeekItems());
+    });
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    _weekItems = _getWeekItems();
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            pinned: true,
-            centerTitle: true,
-            expandedHeight: 350.0,
-            actions: getActions(),
-            leading: IconButton(
-              icon: Icon(Icons.near_me),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CitiesPage(server: widget.server,)));
-              },
-              color: Colors.white,
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(Strings.getValue(widget.server.curCity)),
+      body: RefreshIndicator(
+        onRefresh: _updateWeekItems,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              pinned: true,
               centerTitle: true,
-              collapseMode: CollapseMode.pin,
-              background: Container(
-                color: Theme.of(context).primaryColor,
-                child: SafeArea(
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 18.0),
-                        child: Text(Strings.getValue('NOW'),
+              expandedHeight: 350.0,
+              actions: _getActions(),
+              leading: IconButton(
+                icon: Icon(Icons.near_me),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CitiesPage(server: widget.server,)));
+                },
+                color: Colors.white,
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(Strings.getValue(widget.server.curCity)),
+                centerTitle: true,
+                collapseMode: CollapseMode.pin,
+                background: Container(
+                  color: Theme.of(context).primaryColor,
+                  child: SafeArea(
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 18.0),
+                          child: Text(Strings.getValue('NOW'),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.white
+                            ),
+                          ),
+                        ),
+                        Text(_getHeaderTime(),
                           style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.white
+                            color: Colors.white,
+                            fontWeight: FontWeight.w100,
+                            fontSize: 12.0
                           ),
                         ),
-                      ),
-                      Text(getHeaderTime(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: 12.0
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 80.0),),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text('${widget.server.getCurrentWeather(widget.server.curCity).dayTemp}°', style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 54.0
+                        Padding(padding: EdgeInsets.only(top: 80.0),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('${widget.server.getCurrentWeather(widget.server.curCity).dayTemp}°', style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 54.0
+                              ),
                             ),
-                          ),
-                          Text('C', style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 34.0
+                            Text('C', style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 34.0
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(Strings.getValue(widget.server.getCurrentWeather(widget.server.curCity).type), style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: 14.0
+                          ],
                         ),
-                      ),
-                    ],
+                        Text(Strings.getValue(widget.server.getCurrentWeather(widget.server.curCity).type), style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w100,
+                            fontSize: 14.0
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 14.0, left: 14.0),
-                  child: Text(Strings.getValue('NXTW'), style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500
+            SliverList(
+              delegate: SliverChildListDelegate(
+                <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 14.0, left: 14.0),
+                    child: Text(Strings.getValue('NXTW'), style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w500
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate(getWeekItems()),
-          ),
-        ],
+            SliverList(
+              delegate: SliverChildListDelegate(_weekItems),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  getHeaderTime() {
+  _getHeaderTime() {
     var time = DateTime.now();
     var format = DateFormat("dd.MM.yy");
 
@@ -141,7 +159,7 @@ class _HomePageState extends State<HomePage> {
     return '$d, ${format.format(time)}';
   }
 
-  getActions() {
+  _getActions() {
     return <Widget> [
       IconButton(
         onPressed: () {},
@@ -151,7 +169,7 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  getWeekItems() {
+  _getWeekItems() {
     var widgets = <Widget>[];
 
     var time = DateTime.now();

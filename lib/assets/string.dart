@@ -26,11 +26,12 @@ class Strings {
       'SUND': 'Sunday',
       'CLOUDY': 'Cloudy',
       'RAINY': 'Rainy',
-      'SUNNY': 'Synny',
+      'SUNNY': 'Sunny',
       'SELECTCITY': 'Select a city',
       'RECENT': 'Recent cities',
       'CANTFNDLOC': 'Can\'t find location',
-      'WEATHER': 'Weather'
+      'WEATHER': 'Weather',
+      'SEARCH_CITY': 'Search a city'
     }
   };
 
