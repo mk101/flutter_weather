@@ -2,7 +2,7 @@
 
 Simple weather app, written in flutter
 
-![Select a city](assets/select_a_city.jpg) ![Home](assets/home.jpg) ![Settings](assets/settings.jpg)
+![Image](assets/img.png)
 
 ## Installation
 
