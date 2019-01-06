@@ -82,7 +82,8 @@ class TestServer implements Server {
     ];
   }
 
-  @override
-  String curCity = 'MOS';
+  @override String curCity = 'MOS';
+
+  @override bool isC = true;
 
 }

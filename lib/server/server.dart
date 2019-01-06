@@ -9,5 +9,6 @@ abstract class Server {
   List<String> getCities();
 
   String curCity;
+  bool isC;
 
 }

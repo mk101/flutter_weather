@@ -28,10 +28,57 @@ class Strings {
       'RAINY': 'Rainy',
       'SUNNY': 'Sunny',
       'SELECTCITY': 'Select a city',
-      'RECENT': 'Recent cities',
+      'RECENT': 'Recent',
       'CANTFNDLOC': 'Can\'t find location',
       'WEATHER': 'Weather',
-      'SEARCH_CITY': 'Search a city'
+      'SEARCH_CITY': 'Search a city',
+      'SETTINGS': 'Settings',
+      'GENERAL': 'General',
+      'TEMPERATURE': 'Temperature',
+      'LANGUAGE': 'Language',
+      'ENG': 'English',
+      'RUS': 'Русский',
+      'CHOOSELANG': 'Choose language',
+      'CANSEL': 'CANSEL'
+    },
+    'RUS': {
+      'MOS': 'Москва',
+      'SPB': 'Санкт Петербург',
+      'NNOV': 'Н. Новгород',
+      'NOW': 'Сейчас',
+      'NXTW': 'Следущая неделя',
+      'MON': 'ПН',
+      'TUE': 'ВТ',
+      'WED': 'СР',
+      'THU': 'ЧТ',
+      'FRI': 'ПТ',
+      'SAT': 'СБ',
+      'SUN': 'ВС',
+      'TOD': 'Сегодня',
+      'TOMR': 'Завтра',
+      'MOND': 'Понедельник',
+      'TUES': 'Вторник',
+      'WEDN': 'Среда',
+      'THUR': 'Четверг',
+      'FRID': 'Пятница',
+      'SATU': 'Субота',
+      'SUND': 'Воскресенье',
+      'CLOUDY': 'Облачно',
+      'RAINY': 'Дождь',
+      'SUNNY': 'Солнечно',
+      'SELECTCITY': 'Выбрать город',
+      'RECENT': 'Последние',
+      'CANTFNDLOC': 'Невозможно найти город',
+      'WEATHER': 'Погода',
+      'SEARCH_CITY': 'Найти город',
+      'SETTINGS': 'Настройки',
+      'GENERAL': 'Основные',
+      'TEMPERATURE': 'Температура',
+      'LANGUAGE': 'Язык',
+      'ENG': 'English',
+      'RUS': 'Русский',
+      'CHOOSELANG': 'Выберите язык',
+      'CANSEL': 'ОТМЕНА'
     }
   };
 
@@ -39,4 +86,5 @@ class Strings {
 
   static String getValue(String tag) => _container[curLang][tag];
 
+  static List<String> getLanguages() => ['ENG', 'RUS'];
 }

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/server/server.dart';
 import 'package:weather/assets/string.dart';
+import 'package:weather/weather/weather.dart';
 import 'dart:async';
 
 import 'package:weather/pages/cities.dart';
+import 'package:weather/pages/settings.dart';
 
 class HomePage extends StatefulWidget {
   final Server server;
@@ -79,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text('${widget.server.getCurrentWeather(widget.server.curCity).dayTemp}°', style: TextStyle(
+                            Text('${widget.server.isC ? widget.server.getCurrentWeather(widget.server.curCity).dayTemp
+                                : Weather.toFahrenheit(widget.server.getCurrentWeather(widget.server.curCity).dayTemp)}°', style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 54.0
                               ),
@@ -134,25 +137,25 @@ class _HomePageState extends State<HomePage> {
 
     switch (time.weekday) {
       case 1:
-        d = 'MON';
+        d = Strings.getValue('MON');
         break;
       case 2:
-        d = 'TUE';
+        d = Strings.getValue('TUE');
         break;
       case 3:
-        d = 'WED';
+        d = Strings.getValue('WED');
         break;
       case 4:
-        d = 'THU';
+        d = Strings.getValue('THU');
         break;
       case 5:
-        d = 'FRI';
+        d = Strings.getValue('FRI');
         break;
       case 6:
-        d = 'SAT';
+        d = Strings.getValue('SAT');
         break;
       case 7:
-        d = 'SUN';
+        d = Strings.getValue('SUN');
         break;
     }
 
@@ -162,7 +165,9 @@ class _HomePageState extends State<HomePage> {
   _getActions() {
     return <Widget> [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(server: widget.server,)));
+        },
         icon: Icon(Icons.settings),
         color: Colors.white,
       )
@@ -229,7 +234,7 @@ class _HomePageState extends State<HomePage> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('${weathers[i].dayTemp}°', style: TextStyle(
+            Text('${widget.server.isC ? weathers[i].dayTemp : Weather.toFahrenheit(weathers[i].dayTemp)}°', style: TextStyle(
                 fontSize: 20.0
               ),
             ),
@@ -238,7 +243,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(padding: EdgeInsets.only(left: 5),),
-            Text('${weathers[i].nightTemp}°', style: TextStyle(
+            Text('${widget.server.isC ? weathers[i].nightTemp : Weather.toFahrenheit(weathers[i].nightTemp)}°', style: TextStyle(
                 fontSize: 20.0,
                 color: Colors.black54,
                 fontWeight: FontWeight.w300

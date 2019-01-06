@@ -20,6 +20,7 @@ class _CitiesPageState extends State<CitiesPage> {
         slivers: <Widget>[
           SliverAppBar(
             title: Text(Strings.getValue('SELECTCITY')),
+            pinned: true,
             centerTitle: true,
             actions: <Widget>[
               IconButton(
