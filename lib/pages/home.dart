@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/server/server.dart';
-import 'package:weather/assets/string.dart';
-import 'package:weather/weather/weather.dart';
+import 'package:weather/data/string.dart';
+import 'package:weather/data/weather.dart';
 import 'dart:async';
 
 import 'package:weather/pages/cities.dart';
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 54.0
                               ),
                             ),
-                            Text('C', style: TextStyle(
+                            Text(widget.server.isC ? 'C' : 'F', style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 34.0
                               ),
@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                 fontSize: 20.0
               ),
             ),
-            Text('C', style: TextStyle(
+            Text(widget.server.isC ? 'C' : 'F', style: TextStyle(
                 fontSize: 16.0
               ),
             ),
@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.w300
               ),
             ),
-            Text('C', style: TextStyle(
+            Text(widget.server.isC ? 'C' : 'F', style: TextStyle(
                 fontSize: 16.0,
                 color: Colors.black54,
                 fontWeight: FontWeight.w300

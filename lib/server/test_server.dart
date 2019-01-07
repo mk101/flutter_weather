@@ -1,7 +1,7 @@
 import 'package:weather/server/server.dart';
-import 'package:weather/weather/weather.dart';
+import 'package:weather/data/weather.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:weather/assets/string.dart';
+import 'package:weather/data/string.dart';
 
 class TestServer implements Server {
   static final _server = TestServer._internal();

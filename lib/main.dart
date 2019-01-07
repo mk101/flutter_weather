@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/server/test_server.dart';
-import 'package:weather/assets/string.dart';
+import 'package:weather/data/string.dart';
 
 void main() => runApp(MyApp());
 

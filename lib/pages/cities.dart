@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/server/server.dart';
-import 'package:weather/assets/string.dart';
+import 'package:weather/data/string.dart';
 
 import 'package:weather/pages/search_cities.dart';
 

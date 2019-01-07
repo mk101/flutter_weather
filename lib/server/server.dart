@@ -1,4 +1,4 @@
-import 'package:weather/weather/weather.dart';
+import 'package:weather/data/weather.dart';
 
 abstract class Server {
 
